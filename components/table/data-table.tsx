@@ -330,8 +330,8 @@ export function DataTable<TData extends { id: string }>({
 
             {/* ── Table ── */}
             <div className="rounded-lg border border-slate-200 overflow-hidden shadow-sm">
-                <ScrollArea className="w-full whitespace-nowrap">
-                    <table className="w-full text-sm">
+                {/* <ScrollArea className="w-full whitespace-nowrap"> */}
+                    <table className="w-full table-fixed text-sm">
                         {caption && (
                             <caption className="px-3 py-2 text-left text-xs text-muted-foreground border-b border-slate-100">
                                 {caption}
@@ -476,8 +476,8 @@ export function DataTable<TData extends { id: string }>({
                             )}
                         </tbody>
                     </table>
-                    <ScrollBar orientation="horizontal" />
-                </ScrollArea>
+                    {/* <ScrollBar orientation="horizontal" />
+                </ScrollArea> */}
             </div>
 
 

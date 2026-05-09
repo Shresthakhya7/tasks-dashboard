@@ -16,7 +16,6 @@ A modern React + TypeScript dashboard for managing and visualizing user data wit
  - Paginated data table with sorting
  - Zustand state management
  - Clean UI with Tailwind CSS & shadcn/ui
- - use shadcn/ui scroll-area & scrollbar-horizontal for table overflow
 
 
 # Tech Stack
