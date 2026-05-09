@@ -41,9 +41,9 @@ export default function DashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <StatCard title="Total Employees" value={totalUsers} />
-          <StatCard title="Active Employees" value={activeUsers} />
-          <StatCard title="Inactive Employees" value={inactiveUsers} />
+          <StatCard title="Total Users" value={totalUsers} />
+          <StatCard title="Active Users" value={activeUsers} />
+          <StatCard title="Inactive Users" value={inactiveUsers} />
           <StatCard title="On Leave" value={onLeaveUsers} />
         </div>
 
