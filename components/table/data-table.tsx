@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { DataTableProps, TableColumnDef } from "@/lib/types";
 import { useTableStore } from "@/store/table-store";
 import { EditableCell } from "./edit-cell";
-import { emailSchema, nameSchema, phoneSchema } from "@/lib/schemas";
+import { emailSchema, nameSchema, phoneSchema, salarySchema } from "@/lib/schemas";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink } from "../ui/pagination";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -85,6 +85,10 @@ export function DataTable<TData extends { id: string }>({
                     if (field === "phone") {
                         phoneSchema.parse(String(value));
                     }
+                    if (field === "salary") {
+                        salarySchema.parse(value);
+                    }
+
                 } catch (err) {
                     if (err instanceof z.ZodError) {
                         error = err.issues[0]?.message || "Invalid value";
@@ -329,7 +333,7 @@ export function DataTable<TData extends { id: string }>({
                 <ScrollArea className="w-full whitespace-nowrap">
                     <table className="w-full text-sm">
                         {caption && (
-                            <caption className="px-4 py-2 text-left text-xs text-muted-foreground border-b border-slate-100">
+                            <caption className="px-3 py-2 text-left text-xs text-muted-foreground border-b border-slate-100">
                                 {caption}
                             </caption>
                         )}
@@ -348,7 +352,7 @@ export function DataTable<TData extends { id: string }>({
                                             <th
                                                 key={header.id}
                                                 className={cn(
-                                                    "px-4 py-3 text-left text-xs font-semibold text-foreground uppercase tracking-wider whitespace-nowrap select-none",
+                                                    "px-3 py-3 text-left text-xs font-semibold text-foreground uppercase tracking-wider whitespace-nowrap select-none",
                                                     canSort && "cursor-pointer hover:text-slate-800 transition-colors"
                                                 )}
                                                 onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
@@ -378,7 +382,7 @@ export function DataTable<TData extends { id: string }>({
                                 <tr>
                                     <td
                                         colSpan={allColumns.length + (showRowNumbers ? 1 : 0)}
-                                        className="px-4 py-12 text-center text-sm text-foreground"
+                                        className="px-3 py-12 text-center text-sm text-foreground"
                                     >
                                         {emptyMessage}
                                     </td>
@@ -412,7 +416,7 @@ export function DataTable<TData extends { id: string }>({
                                                 const colDef = cell.column.columnDef as TableColumnDef<TData>;
                                                 const accessorKey = (colDef as { accessorKey?: string }).accessorKey;
                                                 const meta = colDef.meta;
-                                                const isActionCol = cell.column.id === "__actions";
+                                                const isActionCol = cell.column.id === "actions";
                                                 const isCellActive =
                                                     activeCell?.rowId === rowId &&
                                                     activeCell?.columnId === accessorKey;
@@ -429,7 +433,7 @@ export function DataTable<TData extends { id: string }>({
                                                     <td
                                                         key={cell.id}
                                                         className={cn(
-                                                            "px-4 py-2 group/cell text-foreground",
+                                                            "px-3 py-2 group/cell text-foreground",
                                                             isEditing && meta?.editable !== false && "min-w-[140px]"
                                                         )}
                                                     >
@@ -587,7 +591,7 @@ export function DataTable<TData extends { id: string }>({
                         onChange={(e) => {
                             table.setPageSize(Number(e.target.value));
                         }}
-                        className="h-8 rounded-md border border-slate-200 px-2 py-1 text-sm text-foreground"
+                        className="h-8 rounded-md border border-slate-200 px-2 py-1 text-sm text-muted-foreground"
                     >
                         {[1, 3, 5, 10, 20].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>

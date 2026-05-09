@@ -1,18 +1,5 @@
 import React from "react";
 import { TableColumnDef } from "./types";
-
-// export type User = {
-//   id: string;
-//   name: string;
-//   email: string;
-//   department: string;
-//   role: string;
-//   salary: number;
-//   status: "active" | "inactive" | "on-leave";
-//   joinDate: string;
-//   // healthRate?: string;
-// };
-
 export type UserRole = "Admin" | "Manager" | "Support" | "User";
 
 
@@ -22,6 +9,7 @@ export interface User {
   email: string;
   phone: string;
   role: string;
+  salary: number;
   department: string;
   status: string;
   createdAt: string;
@@ -73,6 +61,23 @@ export const userColumns: TableColumnDef<User>[] = [
       type: "number",
       editable: true,
       placeholder: "9876543244",
+    },
+  },
+  {
+    accessorKey: "salary",
+    header: "Salary ($)",
+    meta: {
+      type: "number",
+      editable: true,
+      placeholder: "50000",
+    },
+    cell: ({ getValue }) => {
+      const v = getValue() as number;
+      return (
+        <span className="font-mono text-slate-700">
+          {v?.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}
+        </span>
+      );
     },
   },
   {
@@ -136,6 +141,7 @@ export const initialUsers: User[] = [
     department: "Engineering",
     role: "Admin",
     phone: "9873373738",
+    salary: 145000,
     status: "active",
     createdAt: "2021-03-15",
   },
@@ -146,6 +152,7 @@ export const initialUsers: User[] = [
     department: "Design",
     role: "Manager",
     phone: "9876543212",
+    salary: 115000,
     status: "active",
     createdAt: "2020-08-01",
   },
@@ -156,6 +163,7 @@ export const initialUsers: User[] = [
     department: "Marketing",
     role: "Support",
     phone: "9872435464",
+    salary: 85000,
     status: "on-leave",
     createdAt: "2022-01-10",
   },
@@ -166,6 +174,7 @@ export const initialUsers: User[] = [
     department: "Sales",
     role: "Support",
     phone: "9876273645",
+    salary: 85000,
     status: "active",
     createdAt: "2023-04-22",
   },
@@ -176,6 +185,7 @@ export const initialUsers: User[] = [
     department: "Engineering",
     role: "User",
     phone: "9876535241",
+    salary: 75000,
     status: "active",
     createdAt: "2021-11-30",
   },
@@ -185,6 +195,7 @@ export const initialUsers: User[] = [
     email: "james.o@acme.io",
     department: "Finance",
     role: "Support",
+    salary: 85000,
     phone: "9824365342",
     status: "inactive",
     createdAt: "2019-07-14",
@@ -196,6 +207,7 @@ export const initialUsers: User[] = [
     department: "HR",
     role: "User",
     phone: "9785635343",
+    salary: 75000,
     status: "active",
     createdAt: "2022-09-05",
   },

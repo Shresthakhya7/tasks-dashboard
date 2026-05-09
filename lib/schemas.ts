@@ -16,3 +16,8 @@ export const phoneSchema = z
         /^(98|97)\d{8}$/,
         "Phone number must be a valid number"
     );
+
+export const salarySchema = z
+    .number()
+    .min(1000, "Salary must be at least 1,000")
+    .max(500000, "Salary cannot exceed 500,000");

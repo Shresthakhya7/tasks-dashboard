@@ -21,11 +21,15 @@ export default function DashboardPage() {
     (u) => u.status === "on-leave"
   ).length;
 
+
   const departments = new Set(users.map((u) => u.department)).size;
 
-  const adminUsers = users.filter((u) => u.role === "Admin").length;
-  const managers = users.filter((u) => u.role === "Manager").length;
-  const supportUsers = users.filter((u) => u.role === "Support").length;
+  const totalPayroll = users.reduce(
+    (sum, user) => sum + user.salary,
+    0
+  );
+
+  const avgSalary = totalPayroll / totalUsers;
 
 
   return (
@@ -48,22 +52,20 @@ export default function DashboardPage() {
         </div>
 
         {/* Second Row */}
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-3">
           <StatCard
             title="Departments"
             value={departments}
           />
+
           <StatCard
-            title="Admins"
-            value={adminUsers}
+            title="Total Payroll"
+            value={`$${totalPayroll.toLocaleString()}`}
           />
+
           <StatCard
-            title="Managers"
-            value={managers}
-          />
-          <StatCard
-            title="Support Users"
-            value={supportUsers}
+            title="Avg Salary"
+            value={`$${Math.round(avgSalary).toLocaleString()}`}
           />
 
         </div>
@@ -86,9 +88,9 @@ export default function DashboardPage() {
                     {user.role} • {user.department}
                   </p>
                 </div>
-
+                
                 <span className="text-sm font-mono">
-                  {user.email}
+                  ${user.salary.toLocaleString()}
                 </span>
               </div>
             ))}
