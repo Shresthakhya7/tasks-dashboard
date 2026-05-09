@@ -4,8 +4,8 @@ A modern React + TypeScript dashboard for managing and visualizing user data wit
 
     
 # Project Setup
- npm install
- npm run dev
+    npm install
+    npm run dev
 
 # Features
  - User management (Add, Edit, Delete)
