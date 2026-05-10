@@ -73,7 +73,7 @@ export default function DashboardPage() {
         {/* Simple List Preview */}
         <div className="rounded-2xl border bg-white dark:border-white/55 dark:bg-slate-900 p-6">
           <h2 className="text-lg font-semibold mb-4">
-            Recent Employees
+            Recent Users
           </h2>
 
           <div className="space-y-3">
@@ -109,8 +109,8 @@ function StatCard({
   value: string | number;
 }) {
   return (
-    <div className="rounded-2xl border bg-white dark:border-white/55 dark:bg-slate-900 p-6 hover:shadow-sm transition">
-      <p className="text-sm text-muted-foreground">{title}</p>
+    <div className="rounded-2xl border bg-white dark:border-white/55 dark:bg-slate-900 p-4 hover:shadow-sm transition">
+      <p className="text-md text-muted-foreground">{title}</p>
       <p className="text-2xl font-bold mt-2">{value}</p>
     </div>
   );

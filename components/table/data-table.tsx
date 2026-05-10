@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     useReactTable,
     getCoreRowModel,
@@ -42,6 +42,8 @@ export function DataTable<TData extends { id: string }>({
     const [globalFilter, setGlobalFilter] = useState("");
     const [savingRows, setSavingRows] = useState<Set<string>>(new Set());
     const [deletingRows, setDeletingRows] = useState<Set<string>>(new Set());
+    const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
 
     const {
         startRowEdit,
@@ -262,6 +264,28 @@ export function DataTable<TData extends { id: string }>({
         getRowId: (row) => row.id,
     });
 
+
+
+    useEffect(() => {
+        const checkScreen = () => {
+            setIsMobileOrTablet(window.innerWidth < 1024);
+        };
+
+        checkScreen();
+        window.addEventListener("resize", checkScreen);
+
+        return () => window.removeEventListener("resize", checkScreen);
+    }, []);
+
+    useEffect(() => {
+        if (isMobileOrTablet) {
+            table.setPageSize(5);
+        } else {
+            table.setPageSize(10);
+        }
+    }, [isMobileOrTablet, table]);
+
+
     return (
         <div className="w-full space-y-3">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -273,7 +297,7 @@ export function DataTable<TData extends { id: string }>({
                         placeholder="Search all columns..."
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
-                        className="pl-9 h-9 rounded-lg border-muted bg-background shadow-sm"
+                        className="pl-9 h-9 rounded-lg border-muted-foreground bg-background shadow-sm"
                     />
                 </div>
 
@@ -299,7 +323,15 @@ export function DataTable<TData extends { id: string }>({
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="h-7 rounded-lg gap-2 shadow-sm"
+                                    className="h-7 rounded-lg gap-2 shadow-sm hover:shadow-md
+                                    border-slate-200 bg-white text-slate-900
+                                    hover:bg-slate-100
+                                    dark:border-slate-700
+                                    dark:bg-slate-900
+                                    dark:text-slate-100
+                                    dark:hover:bg-slate-800
+                                    dark:hover:border-slate-600
+                                    "
                                 >
                                     <ChevronDown className="h-4 w-4" />
                                     Columns
@@ -331,7 +363,7 @@ export function DataTable<TData extends { id: string }>({
             {/* ── Table ── */}
             <div className="rounded-lg border border-slate-200 overflow-hidden shadow-sm">
                 <ScrollArea className="w-full whitespace-nowrap">
-                    <table className="w-full xl:table-fixed text-sm">
+                    <table className="w-full text-sm">
                         {caption && (
                             <caption className="px-3 py-2 text-left text-xs text-muted-foreground border-b border-slate-100">
                                 {caption}
@@ -409,7 +441,10 @@ export function DataTable<TData extends { id: string }>({
                                         >
                                             {showRowNumbers && (
                                                 <td className="w-10 px-3 py-2.5 text-xs text-foreground font-mono">
-                                                    {index + 1}
+                                                    {table.getState().pagination.pageIndex *
+                                                        table.getState().pagination.pageSize +
+                                                        index +
+                                                        1}
                                                 </td>
                                             )}
                                             {row.getVisibleCells().map((cell) => {
@@ -482,8 +517,8 @@ export function DataTable<TData extends { id: string }>({
 
 
             {/* ── Pagination ── */}
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div className="text-center text-sm text-muted-foreground md:text-left">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div className="hidden lg:block text-center text-sm text-muted-foreground lg:text-left">
                     Showing{" "}
                     <span className="font-semibold">
                         {table.getState().pagination.pageIndex *
@@ -581,7 +616,7 @@ export function DataTable<TData extends { id: string }>({
                     </Pagination>
                 </div>
 
-                <div className="flex items-center justify-center gap-2 md:justify-end">
+                <div className="hidden lg:flex items-center justify-center gap-2 lg:justify-end">
                     <span className="text-sm text-muted-foreground whitespace-nowrap">
                         Page size:
                     </span>
